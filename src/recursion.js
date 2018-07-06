@@ -12,8 +12,7 @@ var factorial = function(n) {
   // }
   if(n < 0 ){
     return null;
-  }
-  if(n === 0){
+  }else if(n  === 0){
     return 1;
   }
   return n * factorial (n - 1 );
@@ -31,21 +30,91 @@ var sum = function(array) {
 // 3. Sum all numbers in an array containing nested arrays.
 // arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array) {
+  //if the array is empty then return  0
+if(array.length === 0){
+  return 0;
+}
+//if there is an array inside the main array
+if (Array.isArray(array[0])){
+//do the same recursion inside of the inner arrays
+  return arraySum(array[0])+arraySum(array.slice(1));
+}
+//do the recursion on the main array
+return array[0] + arraySum(array.slice(1));
 };
 
 // 4. Check if a number is even.
 var isEven = function(n) {
+  //remember that this is not
+  // think about it simply as a patter of 1 and 0 to give buleon
+  // the recuresion should be substracting 2 in order to reach 1 or 0
+  //make a var that will hold n in order to -2 from it
+  var temp = Math.round(n);// math round will take care of your 9.5 etc.
+  // if temp is ever 1 or 0
+  if(temp === 1){
+    return false;
+  }else if(temp === 0){
+    return true;
+  }
+  //recursive statement subtracks on each recursion
+  return isEven(Math.abs(n-2));// math abs will never deal with negatives
 };
 
 // 5. Sum all integers below a given integer.
-// sumBelow(10); // 45
+// sumBelow(10); // 45 it does not add the num given
 // sumBelow(7); // 21
 var sumBelow = function(n) {
+  // conditional state to exit the recursion
+  if(n === 0){
+  // return zero to not affect the sum
+   return 0;
+   // take care of negatives
+ }else if(n < 0){
+   // do the reverse of reaching 0 or 1 from negative number
+   return n+1 + sumBelow(n + 1);
+ }
+   //for non negatives subtrack from n till recaching 0 or 1
+ return n-1 + sumBelow(n-1);
+
+ // tried a diferent way but failed was not able to take care of negatives
+ //  // set to stop the recursion
+ //  var temp = Math.abs(n);
+ //  console.log(temp);
+ //  if(temp < 1){
+ //    return 0;
+ //  }
+ //  if(n === -1){
+ //   return 0;
+ // }
+ //  return (temp-1) + sumBelow(Math.abs(n-1));
 };
 
 // 6. Get the integers within a range (x, y).
 // range(2,9); // [3,4,5,6,7,8]
 var range = function(x, y) {
+  if(x === y){
+      return [];
+  }
+  //make a place holder for the array
+  var tempArr = [];
+    //set conditional if x is equal to y
+      if(x === y-1 || x === y+1){
+    // return the concated array
+      //return the  arr with the arr push
+        return tempArr;
+      }
+      x > y ?  tempNum = x - 1 :  tempNum = x + 1; // short hand
+  // if(x > y){
+  //   var tempNum = x - 1;
+  // }
+  // if(x < y){
+  //   var tempNum = x + 1 ; // remember that adding here will help start from +1 from x value
+  // }
+  // push the current recursion tempNumm to the current recurison tempArr
+  tempArr.push(tempNum);
+  console.log(tempNum); // to test troubleShoot
+  // contact all the instances of 1 index arrays to the main tempArr
+  return tempArr.concat(range(tempNum, y));
 };
 
 // 7. Compute the exponent of a number.
@@ -54,6 +123,16 @@ var range = function(x, y) {
 // exponent(4,3); // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
 var exponent = function(base, exp) {
+  if(exp < 0){
+  return  1/(base * exponent(base,-1 * exp - 1));
+}
+// if the exp reaches 0
+if(exp === 0){
+  // return the  recursion
+  return 1;
+}
+// mutiply the base by it self till reaching exp 0
+return base * exponent(base, exp - 1);
 };
 
 // 8. Determine if a number is a power of two.
@@ -61,14 +140,47 @@ var exponent = function(base, exp) {
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
 var powerOfTwo = function(n) {
+  if(n === 1){
+  return true;
+}
+if(n<=0){
+  return false;
+}
+return powerOfTwo(n/2);
 };
 
 // 9. Write a function that reverses a string.
 var reverse = function(string) {
+// create an empty string to reverse the chars of given string
+  var str = "";
+// make an if statement to check the length of the str place holder
+  if(str.length === string.length){
+// return the str
+    return str;
+  }
+// add the current string index to the str
+    str = str + string[0];
+  console.log(string.substr(1));
+  console.log(str.charAt(0));
+  return reverse(string.substr(1)) + str.charAt(0);
 };
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
+  // cant just join the  string , have to split it then .join in order for it to go through
+  string = string.split(' ').join('');
+//why set up temp place holders?
+//make conditional statement to check for length of word to equal 1 or zero
+if(string.length === 0 || string.length === 1){
+  return true;
+}
+//check if the current index 0 of string is  equal to the the last index of the current string.
+if(string[0].toLowerCase() !== string[string.length - 1].toLowerCase()){ //remember that we user .toLowerCase() in order to ignore issues with upper case
+  return false;
+}
+// return the the fucntion taking out the first and last index of the current arr through eact recursion
+return palindrome(string.substr(1,string.length-2))
+
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
