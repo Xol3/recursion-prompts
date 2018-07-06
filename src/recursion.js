@@ -188,7 +188,23 @@ return palindrome(string.substr(1,string.length-2))
 // modulo(5,2) // 1
 // modulo(17,5) // 2
 // modulo(22,6) // 4
+//if the lowe x is less greather than y then return x value
+//return x value that will have its  remainder
+//on each recursion  subtract y from x
+// created this negative edge case for negative x
+// though this is not working for  y negative numbers
 var modulo = function(x, y) {
+if (y === 0) { return NaN; }
+if (x < 0){
+  return -modulo(-x ,  y);
+  }
+if (y < 0){
+  return  modulo( x, -y);
+  }
+if(x<y){
+return x;
+}
+return y = modulo(x - y, y);
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator or
